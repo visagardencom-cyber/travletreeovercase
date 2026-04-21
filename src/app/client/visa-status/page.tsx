@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getVisaTrackingsByClient } from '@/lib/db-local';
+import { getVisaTrackingsByClient } from '@/lib/db-supabase';
 import { 
   FileCheck, 
   Clock, 
@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
 export default async function VisaStatusPage() {
   const session = await getServerSession(authOptions);
   const userId = (session?.user as any).id;
-  const visas = getVisaTrackingsByClient(userId);
+  const visas = await getVisaTrackingsByClient(userId);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -130,17 +130,16 @@ export default async function VisaStatusPage() {
                         </div>
                      </div>
 
-                     {visa.adminNotes && (
-                        <div className="mt-12 p-6 bg-gold-50 rounded-2xl border border-gold-100 flex gap-4 items-start">
-                           <AlertCircle className="w-6 h-6 text-gold-600 shrink-0 mt-0.5" />
-                           <div>
-                              <p className="text-xs font-bold text-gold-700 uppercase tracking-widest mb-1">Update from Admin</p>
-                              <p className="text-navy-700 text-sm">{visa.adminNotes}</p>
-                           </div>
-                        </div>
-                     )}
-                  </div>
-               </CardContent>
+{visa.adminNotes && (
+                         <div className="mt-12 p-6 bg-gold-50 rounded-2xl border border-gold-100 flex gap-4 items-start">
+                            <AlertCircle className="w-6 h-6 text-gold-600 shrink-0 mt-0.5" />
+                            <div>
+                               <p className="text-xs font-bold text-gold-700 uppercase tracking-widest mb-1">Update from Admin</p>
+                               <p className="text-navy-700 text-sm">{visa.adminNotes}</p>
+                            </div>
+                         </div>
+                      )}
+                   </CardContent>
             </Card>
             </div>
           ))}

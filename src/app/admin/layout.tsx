@@ -34,12 +34,12 @@ export default async function AdminLayout({
         {/* Admin Top Header */}
         <header className="h-20 bg-white border-b border-navy-100 flex items-center justify-between px-6 md:px-12 sticky top-0 z-40">
            <div className="flex items-center gap-4 flex-1">
-              <Sheet>
-                <SheetTrigger asChild>
-                   <Button variant="ghost" size="icon" className="lg:hidden text-navy-800">
-                      <Menu className="w-6 h-6" />
-                   </Button>
-                </SheetTrigger>
+<Sheet>
+                 <SheetTrigger>
+                    <Button variant="ghost" size="icon" className="lg:hidden text-navy-800">
+                       <Menu className="w-6 h-6" />
+                    </Button>
+                 </SheetTrigger>
                 <SheetContent side="left" className="p-0 border-none w-72">
                    <Sidebar role="admin" />
                 </SheetContent>

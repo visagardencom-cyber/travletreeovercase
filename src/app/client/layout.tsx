@@ -39,12 +39,12 @@ export default async function ClientLayout({
               <span className="font-heading font-bold text-white tracking-tight">TRAVEL TREE</span>
            </div>
            
-           <Sheet>
-              <SheetTrigger asChild>
-                 <Button variant="ghost" size="icon" className="text-white">
-                    <Menu className="w-6 h-6" />
-                 </Button>
-              </SheetTrigger>
+<Sheet>
+               <SheetTrigger>
+                  <Button variant="ghost" size="icon" className="text-white">
+                     <Menu className="w-6 h-6" />
+                  </Button>
+               </SheetTrigger>
               <SheetContent side="left" className="p-0 border-none w-72">
                  <Sidebar role="client" />
               </SheetContent>

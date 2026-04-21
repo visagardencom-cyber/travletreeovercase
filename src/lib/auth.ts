@@ -5,7 +5,7 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail } from './db-local';
+import { getUserByEmail } from './db-supabase';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -20,7 +20,7 @@ export const authOptions: AuthOptions = {
           throw new Error('Email and password are required');
         }
 
-        const user = getUserByEmail(credentials.email);
+        const user = await getUserByEmail(credentials.email);
         if (!user) {
           throw new Error('No account found with this email');
         }
@@ -51,14 +51,14 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as { role: string }).role;
+        token.role = (user as unknown as { role: string }).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { id: string; role: string }).id = token.id as string;
-        (session.user as { id: string; role: string }).role = token.role as string;
+        (session.user as unknown as { id: string; role: string }).id = token.id as string;
+        (session.user as unknown as { id: string; role: string }).role = token.role as string;
       }
       return session;
     },

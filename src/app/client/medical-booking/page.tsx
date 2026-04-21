@@ -120,7 +120,7 @@ export default function MedicalBookingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <Label>Destination Country</Label>
-                    <Select onValueChange={(val) => setFormData({...formData, country: val})}>
+                    <Select onValueChange={(val) => setFormData({...formData, country: val as string})}>
                       <SelectTrigger className="h-14 rounded-2xl bg-navy-50 border-none px-6">
                         <SelectValue placeholder="Select Country" />
                       </SelectTrigger>
@@ -131,7 +131,7 @@ export default function MedicalBookingPage() {
                   </div>
                   <div className="space-y-2">
                     <Label>Medical Center Location</Label>
-                    <Select onValueChange={(val) => setFormData({...formData, medicalCenter: val})}>
+                    <Select onValueChange={(val) => setFormData({...formData, medicalCenter: val as string})}>
                       <SelectTrigger className="h-14 rounded-2xl bg-navy-50 border-none px-6">
                         <SelectValue placeholder="Select Location" />
                       </SelectTrigger>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import { getUserByEmail, createUser } from '@/lib/db-local';
+import { getUserByEmail, createUser } from '@/lib/db-supabase';
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user exists
-    const existing = getUserByEmail(email);
+    const existing = await getUserByEmail(email);
     if (existing) {
       return NextResponse.json(
         { error: 'An account with this email already exists' },
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    const user = createUser({
+    const user = await createUser({
       id: `usr_${uuidv4().slice(0, 8)}`,
       name,
       email: email.toLowerCase(),

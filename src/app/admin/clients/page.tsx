@@ -136,13 +136,13 @@ export default function ClientManager() {
                               {client.status}
                            </Badge>
                         </TableCell>
-                        <TableCell className="text-right px-8">
-                           <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                 <Button variant="ghost" size="icon" className="rounded-full text-navy-400">
-                                    <MoreVertical className="w-5 h-5" />
-                                 </Button>
-                              </DropdownMenuTrigger>
+<TableCell className="text-right px-8">
+                            <DropdownMenu>
+                               <DropdownMenuTrigger>
+                                  <Button variant="ghost" size="icon" className="rounded-full text-navy-400">
+                                     <MoreVertical className="w-5 h-5" />
+                                  </Button>
+                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end" className="w-56">
                                  <DropdownMenuItem className="cursor-pointer">
                                     <ExternalLink className="w-4 h-4 mr-2" /> View Full Profile
