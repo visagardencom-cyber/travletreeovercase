@@ -7,7 +7,8 @@ import { updateUser } from '@/lib/db-supabase';
 export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = (session?.user as any)?.id;
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -31,7 +32,7 @@ export async function PATCH(req: NextRequest) {
     // TODO: Get current user with password hash from DB
     // For now, we'll fetch user by ID
     const { getUserById } = await import('@/lib/db-supabase');
-    const user = await getUserById(session.user.id);
+    const user = await getUserById(userId);
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -47,7 +48,7 @@ export async function PATCH(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Update user password
-    await updateUser(session.user.id, { password: hashedPassword });
+    await updateUser(userId, { password: hashedPassword });
 
     return NextResponse.json({ message: 'Password updated successfully' });
   } catch (error) {
