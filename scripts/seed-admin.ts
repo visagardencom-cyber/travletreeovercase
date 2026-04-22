@@ -13,8 +13,8 @@ if (!supabaseUrl || !supabaseServiceKey) {
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const DEFAULT_ADMIN = {
-  email: process.env.ADMIN_EMAIL || 'admin@traveltree.com',
-  password: process.env.ADMIN_PASSWORD || 'admin123',
+  email: process.env.ADMIN_EMAIL || 'admin@travletree.com',
+  password: process.env.ADMIN_PASSWORD || 'Admin6969',
   name: process.env.ADMIN_NAME || 'Admin User',
 };
 
