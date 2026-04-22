@@ -1,4 +1,11 @@
 import { supabase, supabaseAdmin } from './supabase';
+
+function getSupabaseAdmin() {
+  if (!supabaseAdmin) {
+    throw new Error('Supabase is not configured. Please check your environment variables.');
+  }
+  return supabaseAdmin;
+}
 import type {
   User,
   SiteContent,
