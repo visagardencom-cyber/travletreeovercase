@@ -22,19 +22,22 @@ function formatDate(): string {
 
 // ============ USERS ============
 export async function getUsers(): Promise<User[]> {
-  const { data, error } = await supabaseAdmin.from('users').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('users').select('*');
   if (error) throw error;
   return data || [];
 }
 
 export async function getUserById(id: string): Promise<User | null> {
-  const { data, error } = await supabaseAdmin.from('users').select('*').eq('id', id).single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('users').select('*').eq('id', id).single();
   if (error) return null;
   return data;
 }
 
 export async function getUserByEmail(email: string): Promise<User | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('users')
     .select('*')
     .ilike('email', email)
@@ -44,13 +47,15 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 }
 
 export async function createUser(user: User): Promise<User> {
-  const { data, error } = await supabaseAdmin.from('users').insert(user).select().single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('users').insert(user).select().single();
   if (error) throw error;
   return data;
 }
 
 export async function updateUser(id: string, updates: Partial<User>): Promise<User | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('users')
     .update({ ...updates, updated_at: formatDate() })
     .eq('id', id)
@@ -61,21 +66,24 @@ export async function updateUser(id: string, updates: Partial<User>): Promise<Us
 }
 
 export async function deleteUser(id: string): Promise<boolean> {
-  const { error } = await supabaseAdmin.from('users').delete().eq('id', id);
+  const admin = getSupabaseAdmin();
+  const { error } = await admin.from('users').delete().eq('id', id);
   return !error;
 }
 
 // ============ SITE CONTENT ============
 export async function getSiteContent(): Promise<SiteContent> {
-  const { data, error } = await supabaseAdmin.from('site_content').select('*').single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('site_content').select('*').single();
   if (error || !data) return getDefaultSiteContent();
   return data;
 }
 
 export async function updateSiteContent(updates: Partial<SiteContent>): Promise<SiteContent> {
+  const admin = getSupabaseAdmin();
   const content = await getSiteContent();
   const updated = { ...content, ...updates };
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await admin
     .from('site_content')
     .update({ ...updated, updated_at: formatDate() })
     .select()
@@ -88,6 +96,7 @@ export async function updateSiteContentSection<K extends keyof SiteContent>(
   section: K,
   value: SiteContent[K]
 ): Promise<SiteContent> {
+  const admin = getSupabaseAdmin();
   const columnMap: Record<string, string> = {
     hero: 'hero_title',
     about: 'about_title',
@@ -101,7 +110,7 @@ export async function updateSiteContentSection<K extends keyof SiteContent>(
   };
 
   const column = columnMap[section];
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await admin
     .from('site_content')
     .update({ [column]: value, updated_at: formatDate() })
     .select()
@@ -112,19 +121,22 @@ export async function updateSiteContentSection<K extends keyof SiteContent>(
 
 // ============ MEDICAL BOOKINGS ============
 export async function getMedicalBookings(): Promise<MedicalBooking[]> {
-  const { data, error } = await supabaseAdmin.from('medical_bookings').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('medical_bookings').select('*');
   if (error) throw error;
   return data || [];
 }
 
 export async function getMedicalBookingById(id: string): Promise<MedicalBooking | null> {
-  const { data, error } = await supabaseAdmin.from('medical_bookings').select('*').eq('id', id).single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('medical_bookings').select('*').eq('id', id).single();
   if (error) return null;
   return data;
 }
 
 export async function getMedicalBookingsByClient(clientId: string): Promise<MedicalBooking[]> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('medical_bookings')
     .select('*')
     .eq('client_id', clientId);
@@ -133,7 +145,8 @@ export async function getMedicalBookingsByClient(clientId: string): Promise<Medi
 }
 
 export async function createMedicalBooking(booking: MedicalBooking): Promise<MedicalBooking> {
-  const { data, error } = await supabaseAdmin.from('medical_bookings').insert(booking).select().single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('medical_bookings').insert(booking).select().single();
   if (error) throw error;
   return data;
 }
@@ -142,7 +155,8 @@ export async function updateMedicalBooking(
   id: string,
   updates: Partial<MedicalBooking>
 ): Promise<MedicalBooking | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('medical_bookings')
     .update({ ...updates, updated_at: formatDate() })
     .eq('id', id)
@@ -153,25 +167,29 @@ export async function updateMedicalBooking(
 }
 
 export async function deleteMedicalBooking(id: string): Promise<boolean> {
-  const { error } = await supabaseAdmin.from('medical_bookings').delete().eq('id', id);
+  const admin = getSupabaseAdmin();
+  const { error } = await admin.from('medical_bookings').delete().eq('id', id);
   return !error;
 }
 
 // ============ VISA TRACKING ============
 export async function getVisaTrackings(): Promise<VisaTracking[]> {
-  const { data, error } = await supabaseAdmin.from('visa_tracking').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('visa_tracking').select('*');
   if (error) throw error;
   return data || [];
 }
 
 export async function getVisaTrackingById(id: string): Promise<VisaTracking | null> {
-  const { data, error } = await supabaseAdmin.from('visa_tracking').select('*').eq('id', id).single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('visa_tracking').select('*').eq('id', id).single();
   if (error) return null;
   return data;
 }
 
 export async function getVisaTrackingsByClient(clientId: string): Promise<VisaTracking[]> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('visa_tracking')
     .select('*')
     .eq('client_id', clientId);
@@ -180,7 +198,8 @@ export async function getVisaTrackingsByClient(clientId: string): Promise<VisaTr
 }
 
 export async function createVisaTracking(visa: VisaTracking): Promise<VisaTracking> {
-  const { data, error } = await supabaseAdmin.from('visa_tracking').insert(visa).select().single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('visa_tracking').insert(visa).select().single();
   if (error) throw error;
   return data;
 }
@@ -189,7 +208,8 @@ export async function updateVisaTracking(
   id: string,
   updates: Partial<VisaTracking>
 ): Promise<VisaTracking | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('visa_tracking')
     .update({ ...updates, updated_at: formatDate() })
     .eq('id', id)
@@ -201,19 +221,22 @@ export async function updateVisaTracking(
 
 // ============ PAYMENTS ============
 export async function getPayments(): Promise<Payment[]> {
-  const { data, error } = await supabaseAdmin.from('payments').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('payments').select('*');
   if (error) throw error;
   return data || [];
 }
 
 export async function getPaymentById(id: string): Promise<Payment | null> {
-  const { data, error } = await supabaseAdmin.from('payments').select('*').eq('id', id).single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('payments').select('*').eq('id', id).single();
   if (error) return null;
   return data;
 }
 
 export async function getPaymentsByClient(clientId: string): Promise<Payment[]> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('payments')
     .select('*')
     .eq('client_id', clientId);
@@ -222,7 +245,8 @@ export async function getPaymentsByClient(clientId: string): Promise<Payment[]> 
 }
 
 export async function createPayment(payment: Payment): Promise<Payment> {
-  const { data, error } = await supabaseAdmin.from('payments').insert(payment).select().single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('payments').insert(payment).select().single();
   if (error) throw error;
   return data;
 }
@@ -231,7 +255,8 @@ export async function updatePayment(
   id: string,
   updates: Partial<Payment>
 ): Promise<Payment | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('payments')
     .update({ ...updates, updated_at: formatDate() })
     .eq('id', id)
@@ -243,7 +268,8 @@ export async function updatePayment(
 
 // ============ INTEGRATIONS ============
 export async function getIntegrations(): Promise<Integration[]> {
-  const { data, error } = await supabaseAdmin.from('integrations').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('integrations').select('*');
   if (error) throw error;
   return data || [];
 }
@@ -252,7 +278,8 @@ export async function updateIntegration(
   id: string,
   updates: Partial<Integration>
 ): Promise<Integration | null> {
-  const { data, error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin
     .from('integrations')
     .update({ ...updates, updated_at: formatDate() })
     .eq('id', id)
@@ -264,19 +291,22 @@ export async function updateIntegration(
 
 // ============ CONTACT MESSAGES ============
 export async function getContactMessages(): Promise<ContactMessage[]> {
-  const { data, error } = await supabaseAdmin.from('contact_messages').select('*');
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('contact_messages').select('*');
   if (error) throw error;
   return data || [];
 }
 
 export async function createContactMessage(message: ContactMessage): Promise<ContactMessage> {
-  const { data, error } = await supabaseAdmin.from('contact_messages').insert(message).select().single();
+  const admin = getSupabaseAdmin();
+  const { data, error } = await admin.from('contact_messages').insert(message).select().single();
   if (error) throw error;
   return data;
 }
 
 export async function markMessageRead(id: string): Promise<boolean> {
-  const { error } = await supabaseAdmin
+  const admin = getSupabaseAdmin();
+  const { error } = await admin
     .from('contact_messages')
     .update({ is_read: true })
     .eq('id', id);
@@ -284,7 +314,8 @@ export async function markMessageRead(id: string): Promise<boolean> {
 }
 
 export async function deleteContactMessage(id: string): Promise<boolean> {
-  const { error } = await supabaseAdmin.from('contact_messages').delete().eq('id', id);
+  const admin = getSupabaseAdmin();
+  const { error } = await admin.from('contact_messages').delete().eq('id', id);
   return !error;
 }
 
