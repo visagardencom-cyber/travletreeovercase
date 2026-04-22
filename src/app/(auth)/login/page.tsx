@@ -109,25 +109,9 @@ function LoginForm() {
         </Button>
       </form>
 
-      <p className="mt-8 text-center text-navy-500">
-        Don't have an account? <Link href="/register" className="text-teal-600 font-bold hover:underline">Create Account</Link>
-      </p>
-
-      <div className="mt-12 p-6 bg-navy-50 rounded-[2rem] border border-navy-100">
-         <p className="text-xs font-bold text-navy-400 uppercase tracking-widest mb-4 text-center">Demo Accounts</p>
-         <div className="grid grid-cols-2 gap-4">
-            <div className="text-[10px] text-navy-600">
-               <p className="font-bold text-teal-600 mb-1 uppercase">Admin</p>
-               <p>admin@traveltree.com</p>
-               <p>admin123</p>
-            </div>
-            <div className="text-[10px] text-navy-600">
-               <p className="font-bold text-teal-600 mb-1 uppercase">Client</p>
-               <p>Register a new one</p>
-               <p>to see client view</p>
-            </div>
-         </div>
-      </div>
+       <p className="mt-8 text-center text-navy-500">
+         Don't have an account? <Link href="/register" className="text-teal-600 font-bold hover:underline">Create Account</Link>
+       </p>
     </div>
   );
 }
