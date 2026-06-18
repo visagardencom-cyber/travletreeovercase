@@ -1,5 +1,5 @@
 import { supabaseAdmin } from '@/db'
-import { normalizeShopifyProduct, normalizeWooProduct, normalizeYouTubeVideo } from '../normalize'
+import { normalizeShopifyProduct, normalizeWooProduct, normalizeYouTubeVideo } from './normalize'
 
 interface TrustScoreComponents {
   freshness: number

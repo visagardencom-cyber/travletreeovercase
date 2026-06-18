@@ -64,7 +64,7 @@ export async function simulateAIModel(
           max_tokens: 1024,
           messages: [{ role: 'user', content: prompts.claude }],
         })
-        return claude.content[0].text
+        return (claude.content[0] as any)?.text ?? ''
     }
   } catch (error) {
     return `Simulation error: ${error}`

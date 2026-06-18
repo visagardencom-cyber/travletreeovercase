@@ -4,7 +4,7 @@ import { Entity } from './types'
 export function normalizeShopifyProduct(
   product: any,
   organizationId: string
-): Omit<Entity, 'id' | 'created_at' | 'updated_at'> {
+): Omit<Entity, 'id' | 'createdAt' | 'updatedAt'> {
   return {
     organizationId,
     entityType: 'product' as EntityType,
@@ -17,7 +17,7 @@ export function normalizeShopifyProduct(
 export function normalizeWooProduct(
   product: any,
   organizationId: string
-): Omit<Entity, 'id' | 'created_at' | 'updated_at'> {
+): Omit<Entity, 'id' | 'createdAt' | 'updatedAt'> {
   return {
     organizationId,
     entityType: 'product' as EntityType,
@@ -30,7 +30,7 @@ export function normalizeWooProduct(
 export function normalizeYouTubeVideo(
   video: any,
   organizationId: string
-): Omit<Entity, 'id' | 'created_at' | 'updated_at'> {
+): Omit<Entity, 'id' | 'createdAt' | 'updatedAt'> {
   return {
     organizationId,
     entityType: 'video' as EntityType,
